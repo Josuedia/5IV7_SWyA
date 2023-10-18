@@ -1,30 +1,43 @@
-const desplazamiento=document.getElementById("desplazamiento");
-const text=document.getElementById("texto");
-const textocifrado=document.getElementById("cifrado");
-//se crea una funcion para cifrar
-function cifrado(){
-    //declarar el texto mque se va aingresar
-    const mitextoingresado=texto.value;
-    //las funciones flecha es una alternativa a las funciones normales, no tiene argumentos, no es apto para invocar, es como una version lite. se usan para operaciones simplificadas, algo rapido
-    textocifrafo.value = textoingresado.spliyt('').map(c => {
-        //el ? es como unn if simplificado entrega esto ?(si) esto :(sino) este otro
-    let mayus=(c===c.toUpperCase) ? true : false
-    //esto valida los caracteres
-    let valorentero= c.toLowerCase().charCodeAt(0);
+const desplazamiento1 = document.getElementById("desplazamiento");
+const texto = document.getElementById("texto");
+const textocifrado = document.getElementById("cifrado");
 
-    if(valorenterp >= 97 && valorentero <= 122){
-        const valordesplazamiento= parseInt(desplazamiento.value);
-        if(valorentero+valordesplazamiento >122 ){
-            valorentero= 97 + (valorentero - 122) + valordesplazamiento - 1;
-        }else {
-            valorentero=valorentero+valordesplazamiento;
-        }
-    }
-    let cifrado=String.fromCharCode(valorentero)
-    return mayus ? cifrado.toUpperCase(): cifrado;
-    }).join('');
-    
+//para el descifrado
+const textodesc = document.getElementById("textodes");
+const textodescifrado = document.getElementById("descifrado");
+const desplazamiento2 = document.getElementById("desplazamiento2");
+
+function cifrado() {
+    const textoIngresado = texto.value;
+    textocifrado.value = textoIngresado.split("").map(c => {
+            let mayus = c === c.toUpperCase();
+            let valorEntero = c.toLowerCase().charCodeAt(0);
+            if (valorEntero >= 97 && valorEntero <= 122) {
+                const valorDesplazamiento = parseInt(desplazamiento1.value);
+                valorEntero = ((valorEntero - 97 + valorDesplazamiento) % 26) + 97;
+            }
+            let cifrado = String.fromCharCode(valorEntero);
+            return mayus ? cifrado.toUpperCase() : cifrado;
+        })
+        .join("");
+}
+function descifrado() {
+    const textoIngresado2 = textodesc.value;
+    textodescifrado.value = textoIngresado2.split("").map(c => {
+            let mayus = c === c.toUpperCase();
+            let valorEntero2 = c.toLowerCase().charCodeAt(0);
+            if (valorEntero2 >= 97 && valorEntero2 <= 122) {
+                const valorDesplazamiento2 = parseInt(desplazamiento2.value);
+                valorEntero2 = ((valorEntero2 - 97 - valorDesplazamiento2 + 26) % 26) + 97;
+            }
+            let descifrado = String.fromCharCode(valorEntero2);
+            return mayus ? descifrado.toUpperCase() : descifrado;
+        })
+        .join("");
 }
 
-texto.addEventListener("keyup", cifrado);
-desplazamiento.addEventListener("change", cifrado)
+texto.addEventListener("input", cifrado);
+desplazamiento1.addEventListener("input", cifrado);
+
+textodesc.addEventListener("input", descifrado);
+desplazamiento2.addEventListener("input", descifrado);
